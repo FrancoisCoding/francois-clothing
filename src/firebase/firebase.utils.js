@@ -1,4 +1,12 @@
-import firebase from "firebase/app";
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
 import "firebase/firestore";
 import "firebase/auth";
 
@@ -12,13 +20,28 @@ const config = {
   measurementId: "G-NGQCZMYLBY",
 };
 
-firebase.initializeApp(config);
+initializeApp(config);
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+export const auth = getAuth();
+export const firestore = getFirestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
-
-export default firebase;
+const provider = new GoogleAuthProvider();
+export const signInWithGoogle = () =>
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      // Google Access Token
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log(errorCode, "Error Code");
+      console.log(errorMessage, "Error Message");
+      console.log(email, "Email");
+      console.log(credential, "Credential");
+    });

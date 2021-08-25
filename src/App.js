@@ -3,6 +3,7 @@ import "./App.scss";
 import Header from "./components/Header/Header";
 import Routes from "./utils/Routes";
 import { auth } from "./firebase/firebase.utils";
+import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
@@ -10,18 +11,14 @@ function App() {
 
   useEffect(() => {
     setUnsubscribeFromAuth(
-      auth.onAuthStateChanged((user) => {
+      onAuthStateChanged(auth, (user) => {
         setCurrentUser(user);
       })
     );
 
-    auth.onAuthStateChanged((user) => {
+    onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
     });
-
-    return () => {
-      unsubscribeFromAuth();
-    };
   }, []);
 
   console.log(currentUser, "CURRENT USER");
