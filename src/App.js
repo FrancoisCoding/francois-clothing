@@ -4,22 +4,31 @@ import Header from "./components/Header/Header";
 import Routes from "./utils/Routes";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "./actions";
+import { doc, onSnapshot } from "firebase/firestore";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState();
-  const [unsubscribeFromAuth, setUnsubscribeFromAuth] = useState();
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.user);
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      createUserProfileDocument(user);
+    onAuthStateChanged(auth, async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        onSnapshot(userRef, (snapshot) => {
+          dispatch(setUser({ id: userAuth.uid, ...snapshot.data() }));
+        });
+      }
+      dispatch(setUser(userAuth));
     });
   }, []);
 
-  console.log(currentUser, "CURRENT USER");
+  console.log(state, "REDUX STATE");
   return (
     <div>
-      <Header currentUser={currentUser} />
+      <Header />
       <Routes />
     </div>
   );

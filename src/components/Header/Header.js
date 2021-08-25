@@ -4,8 +4,13 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/francois-clothing.svg";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase.utils";
+import { useSelector } from "react-redux";
 
-const Header = ({ currentUser }) => {
+const Header = () => {
+  const state = useSelector((state) => state.user);
+
+  const signOutOfApp = () => {};
+
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -18,7 +23,7 @@ const Header = ({ currentUser }) => {
         <Link className="option" to="/contact">
           CONTACT
         </Link>
-        {currentUser ? (
+        {state.user ? (
           <div className="option" onClick={() => signOut(auth)}>
             SIGN OUT
           </div>

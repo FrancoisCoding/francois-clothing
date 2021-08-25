@@ -56,25 +56,18 @@ export const signInWithGoogle = () =>
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
-  const querySnapshot = await getDocs(collection(firestore, "users"));
-  querySnapshot.forEach((doc) => {
-    console.log(doc, "DOCUMENT");
-    console.log(`${doc.id} => ${doc.data()}`);
-  });
+  const userRef = doc(firestore, "users", userAuth.uid);
+  const userSnap = await getDoc(userRef);
 
-  console.log(userAuth, "UID");
-  const docRef = doc(firestore, "users", userAuth.uid);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
+  if (userSnap.exists()) {
+    console.log("User info:", userSnap.data());
   } else {
     console.log("Creating User");
     const { displayName, email } = userAuth;
     const createdAt = new Date();
 
     try {
-      await setDoc(docRef, {
+      await setDoc(userRef, {
         displayName,
         email,
         createdAt,
@@ -85,4 +78,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
       console.log("Error creating user", err.message);
     }
   }
+
+  return userRef;
 };
