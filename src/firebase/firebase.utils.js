@@ -5,7 +5,14 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 
 import "firebase/firestore";
 import "firebase/auth";
@@ -45,3 +52,37 @@ export const signInWithGoogle = () =>
       console.log(email, "Email");
       console.log(credential, "Credential");
     });
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const querySnapshot = await getDocs(collection(firestore, "users"));
+  querySnapshot.forEach((doc) => {
+    console.log(doc, "DOCUMENT");
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
+
+  console.log(userAuth, "UID");
+  const docRef = doc(firestore, "users", userAuth.uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+  } else {
+    console.log("Creating User");
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await setDoc(docRef, {
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+      console.log("User created successfully");
+    } catch (err) {
+      console.log("Error creating user", err.message);
+    }
+  }
+};

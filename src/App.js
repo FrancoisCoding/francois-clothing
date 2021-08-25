@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import Header from "./components/Header/Header";
 import Routes from "./utils/Routes";
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
@@ -10,14 +10,9 @@ function App() {
   const [unsubscribeFromAuth, setUnsubscribeFromAuth] = useState();
 
   useEffect(() => {
-    setUnsubscribeFromAuth(
-      onAuthStateChanged(auth, (user) => {
-        setCurrentUser(user);
-      })
-    );
-
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      createUserProfileDocument(user);
     });
   }, []);
 
