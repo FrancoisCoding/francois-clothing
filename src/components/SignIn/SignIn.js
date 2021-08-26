@@ -3,17 +3,29 @@ import CustomButton from "../CustomButton/CustomButton";
 import FormInput from "../FormInput/FormInput";
 import { signInWithGoogle } from "../../firebase/firebase.utils";
 import "./SignIn.scss";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = () => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const auth = getAuth();
+    signInWithEmailAndPassword(
+      auth,
+      credentials.email,
+      credentials.password
+    ).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      console.log(errorCode, "ERROR CODE");
+      console.log(errorMessage, "ERROR MESSAGE");
+    });
 
     setCredentials({
       email: "",
@@ -50,7 +62,7 @@ const SignIn = () => {
         />
         <div className="buttons">
           <CustomButton type="submit"> Sign in </CustomButton>
-          <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+          <CustomButton type="button" onClick={signInWithGoogle} isGoogleSignIn>
             Sign in with google
           </CustomButton>
         </div>
