@@ -9,3 +9,7 @@ export const setUser = (user) => (dispatch) => {
 export const toggleCartHidden = (bool) => (dispatch) => {
   dispatch({ type: actionTypes.TOGGLE_CART_HIDDEN, payload: bool });
 };
+
+export const addItem = (item) => (dispatch) => {
+  dispatch({ type: actionTypes.ADD_ITEM, payload: item });
+};

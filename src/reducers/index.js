@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "../actions/types";
+import { addItemToCart } from "../components/Cart/Cart.utils";
 
 const userState = {
   user: null,
@@ -19,6 +20,7 @@ const userReducer = (state = userState, action) => {
 
 const cartState = {
   hidden: true,
+  cartItems: [],
 };
 
 const cartReducer = (state = cartState, action) => {
@@ -27,6 +29,11 @@ const cartReducer = (state = cartState, action) => {
       return {
         ...state,
         hidden: !state.hidden,
+      };
+    case actionTypes.ADD_ITEM:
+      return {
+        ...state,
+        cartItems: addItemToCart(state.cartItems, action.payload),
       };
     default:
       return state;
