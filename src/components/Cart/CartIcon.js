@@ -8,10 +8,15 @@ const CartIcon = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.cart);
 
+  const cartCount = state.cartItems.reduce(
+    (accumalatedQuantity, item) => accumalatedQuantity + item.quantity,
+    0
+  );
+
   return (
     <div className="cart-icon" onClick={() => dispatch(toggleCartHidden())}>
       <ShoppingIcon className="shopping-icon" />
-      <span className="item-count">0</span>
+      <span className="item-count">{cartCount}</span>
     </div>
   );
 };
