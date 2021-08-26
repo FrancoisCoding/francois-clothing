@@ -25,7 +25,6 @@ function App() {
     });
   }, []);
 
-  console.log(state, "REDUX STATE");
   return (
     <div>
       <Header />

@@ -3,7 +3,6 @@ import "./Collection.scss";
 import CollectionItem from "./CollectionItem";
 
 const Collection = ({ title, items }) => {
-  console.log(title, items);
   return (
     <div className="collection">
       <h1 className="title">{title.toUpperCase()}</h1>

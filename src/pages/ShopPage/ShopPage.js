@@ -4,7 +4,6 @@ import Collection from "../../components/Collection/Collection";
 
 const Shop = () => {
   const [collections, setCollections] = useState(SHOP_DATA);
-  console.log(collections, "COLLECTIONS");
   return (
     <div>
       {collections.map(({ id, ...collectionProps }) => {
