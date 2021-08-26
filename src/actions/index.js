@@ -14,6 +14,10 @@ export const addItem = (item) => (dispatch) => {
   dispatch({ type: actionTypes.ADD_ITEM, payload: item });
 };
 
+export const removeItem = (item) => (dispatch) => {
+  dispatch({ type: actionTypes.REMOVE_ITEM, payload: item });
+};
+
 export const clearItemFromCart = (item) => (dispatch) => {
   dispatch({ type: actionTypes.CLEAR_ITEM_FROM_CART, payload: item });
 };

@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/types";
 import {
   addItemToCart,
   clearItemFromCart,
+  removeItemFromCart,
 } from "../components/Cart/Cart.utils";
 
 const userState = {
@@ -37,6 +38,11 @@ const cartReducer = (state = cartState, action) => {
       return {
         ...state,
         cartItems: addItemToCart(state.cartItems, action.payload),
+      };
+    case actionTypes.REMOVE_ITEM:
+      return {
+        ...state,
+        cartItems: removeItemFromCart(state.cartItems, action.payload),
       };
     case actionTypes.CLEAR_ITEM_FROM_CART:
       return {
