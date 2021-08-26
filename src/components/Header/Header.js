@@ -7,10 +7,17 @@ import { auth } from "../../firebase/firebase.utils";
 import { useSelector } from "react-redux";
 import CartIcon from "../Cart/CartIcon";
 import CartDropdown from "../Cart/CartDropdown";
+import { createStructuredSelector } from "reselect";
+import { selectCartHidden } from "../../selectors/cart.selectors";
+import { selectCurrentUser } from "../../selectors/user.selector";
 
 const Header = () => {
-  const userState = useSelector((state) => state.user);
-  const cartState = useSelector((state) => state.cart);
+  const state = useSelector((state) => state);
+  const structuredSelector = createStructuredSelector({
+    user: selectCurrentUser,
+    hidden: selectCartHidden,
+  });
+  const selectedState = structuredSelector(state);
 
   return (
     <div className="header">
@@ -24,7 +31,7 @@ const Header = () => {
         <Link className="option" to="/contact">
           CONTACT
         </Link>
-        {userState.user ? (
+        {selectedState.user ? (
           <div className="option" onClick={() => signOut(auth)}>
             SIGN OUT
           </div>
@@ -35,7 +42,7 @@ const Header = () => {
         )}
         <CartIcon />
       </div>
-      {!cartState.hidden && <CartDropdown />}
+      {!selectedState.hidden && <CartDropdown />}
     </div>
   );
 };

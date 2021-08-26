@@ -9,7 +9,6 @@ import { addItem } from "../../actions/index";
 const CollectionItem = ({ item }) => {
   const { name, price, imageUrl } = item;
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.cart);
 
   const addToCart = (item) => {
     dispatch(addItem(item));

@@ -1,6 +1,9 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "../actions/types";
-import { addItemToCart } from "../components/Cart/Cart.utils";
+import {
+  addItemToCart,
+  clearItemFromCart,
+} from "../components/Cart/Cart.utils";
 
 const userState = {
   user: null,
@@ -34,6 +37,11 @@ const cartReducer = (state = cartState, action) => {
       return {
         ...state,
         cartItems: addItemToCart(state.cartItems, action.payload),
+      };
+    case actionTypes.CLEAR_ITEM_FROM_CART:
+      return {
+        ...state,
+        cartItems: clearItemFromCart(state.cartItems, action.payload),
       };
     default:
       return state;
