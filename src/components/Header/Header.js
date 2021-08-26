@@ -5,11 +5,12 @@ import { ReactComponent as Logo } from "../../assets/francois-clothing.svg";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase.utils";
 import { useSelector } from "react-redux";
+import CartIcon from "../Cart/CartIcon";
+import CartDropdown from "../Cart/CartDropdown";
 
 const Header = () => {
-  const state = useSelector((state) => state.user);
-
-  const signOutOfApp = () => {};
+  const userState = useSelector((state) => state.user);
+  const cartState = useSelector((state) => state.cart);
 
   return (
     <div className="header">
@@ -23,7 +24,7 @@ const Header = () => {
         <Link className="option" to="/contact">
           CONTACT
         </Link>
-        {state.user ? (
+        {userState.user ? (
           <div className="option" onClick={() => signOut(auth)}>
             SIGN OUT
           </div>
@@ -32,7 +33,9 @@ const Header = () => {
             SIGN IN
           </Link>
         )}
+        <CartIcon />
       </div>
+      {!cartState.hidden && <CartDropdown />}
     </div>
   );
 };

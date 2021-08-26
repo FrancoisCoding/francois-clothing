@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "../actions/types";
 
-const initialState = {
+const userState = {
   user: null,
 };
 
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = userState, action) => {
   switch (action.type) {
     case actionTypes.SET_USER:
       return {
@@ -17,8 +17,25 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
+const cartState = {
+  hidden: true,
+};
+
+const cartReducer = (state = cartState, action) => {
+  switch (action.type) {
+    case actionTypes.TOGGLE_CART_HIDDEN:
+      return {
+        ...state,
+        hidden: !state.hidden,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   user: userReducer,
+  cart: cartReducer,
 });
 
 export default rootReducer;
