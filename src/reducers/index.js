@@ -7,6 +7,7 @@ import {
   clearItemFromCart,
   removeItemFromCart,
 } from "../components/Cart/Cart.utils";
+import { SHOP_DATA } from "../pages/ShopPage/data";
 
 const userState = {
   user: null,
@@ -63,33 +64,33 @@ const directoryState = {
         title: "hats",
         imageUrl: "https://i.imgur.com/djAGJc9.jpg",
         id: 1,
-        linkUrl: "hats",
+        linkUrl: "shop/hats",
       },
       {
         title: "jackets",
         imageUrl: "https://i.imgur.com/t19tSfw.jpg",
         id: 2,
-        linkUrl: "jackets",
+        linkUrl: "shop/jackets",
       },
       {
         title: "sneakers",
         imageUrl: "https://i.imgur.com/2LlAEsp.jpg",
         id: 3,
-        linkUrl: "sneakers",
+        linkUrl: "shop/sneakers",
       },
       {
         title: "womens",
         imageUrl: "https://i.imgur.com/3fpOpsf.jpg?2",
         size: "large",
         id: 4,
-        linkUrl: "womans",
+        linkUrl: "shop/womans",
       },
       {
         title: "mens",
         imageUrl: "https://i.imgur.com/YKmuWiB.jpg",
         size: "large",
         id: 5,
-        linkUrl: "mens",
+        linkUrl: "shop/mens",
       },
     ],
   },
@@ -101,7 +102,9 @@ const directoryReducer = (state = directoryState, action) => {
       return state;
   }
 };
-const collectionState = {};
+const collectionState = {
+  collections: SHOP_DATA,
+};
 
 const collectionReducer = (state = collectionState, action) => {
   switch (action.type) {

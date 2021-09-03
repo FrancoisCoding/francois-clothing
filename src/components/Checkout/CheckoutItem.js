@@ -1,6 +1,6 @@
 import React from "react";
 import "./CheckoutItem.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearItemFromCart, addItem, removeItem } from "../../actions";
 
 const CheckoutItem = ({ cartItem }) => {
